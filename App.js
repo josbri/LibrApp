@@ -8,9 +8,13 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator } from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
 
+import { Provider } from 'react-redux'
+import { createStore} from 'redux'
+import rootReducer from './reducers/index'
+
 const navigationOptions = {
   headerStyle: {
-    backgroundColor: 'rgb(83,176,108)',
+    backgroundColor: '#7b7164',
     borderBottomColor: '#586F6B',
     shadowColor: "#000",
     shadowOffset: {
@@ -24,15 +28,15 @@ const navigationOptions = {
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
-    textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
     padding: 5,
     color: 'white',
-    fontWeight: '100',
+    fontWeight: '200',
     flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center'
-    }
+    
+    },
+    headerTitleAlign: 'center'
+    
 }
 
 // Stack Navigator que nos permite ver los detalles de los eventos.
@@ -86,8 +90,8 @@ const Tabs = createBottomTabNavigator(
   },
   {
       tabBarOptions: {
-        activeTintColor: '#73bf87',
-        inactiveTintColor: '#cccccc',
+        activeTintColor: '#e9e4d0',
+        inactiveTintColor: '#6f6542',
           labelStyle: {
               fontWeight: 'bold',
               fontSize: 16,
@@ -95,7 +99,7 @@ const Tabs = createBottomTabNavigator(
           },
           style: {
 
-            backgroundColor: 'rgb(88,111,107)',
+            backgroundColor: '#382110',
           },
       }
   }
@@ -120,9 +124,16 @@ const SwitchNavigator = createSwitchNavigator(
 //Añadimos SwitchNavigator a AppContainer
 const AppContainer = createAppContainer(SwitchNavigator)
 
+//Creamos el store
+const store = createStore(rootReducer)
+
 //Cada vez que se carga la página:
 export default class App extends React.Component {
   render(){
-    return <AppContainer/>
+    return (
+      <Provider store={store}>
+        <AppContainer/>
+      </Provider>
+    )
   }
 }
