@@ -1,62 +1,81 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import {View, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native'
+
 
 import { addBook, removeBook } from '../reducers/actions'
 import { connect } from 'react-redux'
-
-
+import  BookList  from '../components/BookList';
 
 const initialState = {
     name: '',
-    author: ''
-  }
+    author: '',
+    id: '',
+    genre: '',
+}
 
 class MainLibrosScreen extends Component {
-    static navigationOptions = {
-        title: 'Mis Libros',
-    };
-
+    static navigationOptions = ({ navigation }) => {
+        return {
+          headerTitle: 'Mis Libros',
+        }
+      };
+      
     state = initialState
-  
-    componentDidMount(){
+    constructor(props){
+        super(props);
+
+        this.viewBookDetails = this.viewBookDetails.bind(this)
+
+    }
+    componentDidMount() {
+        console.log(this.props)
         console.log(this.props.books)
+        console.log(this.state)
     }
     updateInput = (key, value) => {
-      this.setState({
-        ...this.state,
-        [key]: value
-      })
+        this.setState({
+            ...this.state,
+            [key]: value
+        })
     }
-    
+
     addBook = () => {
-      this.props.dispatchAddBook(this.state)
-      this.setState(initialState)
+        this.props.dispatchAddBook(this.state)
+        this.setState(initialState)
     }
-    
+
     removeBook = (book) => {
-      this.props.dispatchRemoveBook(book)
+        this.props.dispatchRemoveBook(book)
     }
-    
 
-    render(){
-        const { books } = this.props.books
-        return(
-            <View style={styles.Container}>
-               <Button style={styles.botonNuevo} title="Nuevo Libro" color="#006352" />     
+      //Con navigate vamos a Detalles, y le enviamos la información del evento seleccionado.
+    viewBookDetails(book) {
+        console.log(book)
+        
+       this.props.navigation.navigate('Detalles', {book: JSON.stringify(book)});
+    }
+    render() {
+        const { books } = this.props
+        return (
+            <View style={styles.container}>
+                 <Button style={styles.botonNuevo} title="Nuevo Libro" color="#006352" onPress={this.addBook}/>     
+                <Text style={styles.Header}>Libros</Text>
+                <ScrollView keyboardShouldPersistTaps='always' style={styles.content}>
+                    <BookList books={books} viewBookDetails={this.viewBookDetails} navigation={this.props.navigation}/>
+                </ScrollView>
             </View>
-
         )
     }
-} 
+}
 
 const mapDispatchToProps = {
     dispatchAddBook: (book) => addBook(book),
     dispatchRemoveBook: (book) => removeBook(book)
-  }
-  
-  const mapStateToProps = (state) => ({
+}
+
+const mapStateToProps = (state) => ({
     books: state.bookReducer.books
-  })
+})
 
 
 const styles = StyleSheet.create({
@@ -67,6 +86,10 @@ const styles = StyleSheet.create({
     },
     botonNuevo: {
         marginTop: 20,
+    },
+    Header: {
+        fontSize: 30,
+        alignSelf: "center",
     }
 })
 

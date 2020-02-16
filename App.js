@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import MainLibrosScreen from './screens/MainLibrosScreen';
 import MainStatsScreen from './screens/MainStatsScreen';
+import BookDetails from './screens/BookDetails'
 
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator } from 'react-navigation-stack'
@@ -24,7 +25,6 @@ const navigationOptions = {
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
-    height: 56
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
@@ -43,7 +43,7 @@ const navigationOptions = {
 const LibrosNavigator = createStackNavigator(
   {        
       Libros: MainLibrosScreen,
-      // Detalles: EventosDetails,
+      Detalles: BookDetails,
       // Apuestas: ApuestaMain,
   },
   {
@@ -91,7 +91,7 @@ const Tabs = createBottomTabNavigator(
   {
       tabBarOptions: {
         activeTintColor: '#e9e4d0',
-        inactiveTintColor: '#6f6542',
+        inactiveTintColor: '#635c52',
           labelStyle: {
               fontWeight: 'bold',
               fontSize: 16,

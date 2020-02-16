@@ -2,7 +2,9 @@ import uuidV4 from 'uuid/v4'
 import { ADD_BOOK, REMOVE_BOOK } from './actions'
 
 const initialState = {
-  books: [{ name: 'East of Eden', author: 'John Steinbeck', id: uuidV4() }]
+  books: [{ name: 'East of Eden', author: 'John Steinbeck', genre:'Drama' , id: uuidV4() },
+  { name: 'El extranjero', author: 'Albert Camus', genre:'Drama' , id: uuidV4() },
+]
 }
 
 const bookReducer = (state = initialState, action) => {
